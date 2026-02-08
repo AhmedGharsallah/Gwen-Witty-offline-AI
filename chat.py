@@ -15,7 +15,6 @@ VOICE_MODEL = "en_US-amy-medium.onnx"
 try:
     recognizer = sr.Recognizer()
     voice = PiperVoice.load(VOICE_MODEL)
-    # Get the sample rate directly from the voice model (usually 22050)
     piper_sample_rate = voice.config.sample_rate
 except Exception as e:
     print(f"Startup Error: {e}")
@@ -24,7 +23,7 @@ except Exception as e:
 
 def clean_text_for_speech(text):
     """Removes emojis and special characters that Piper might try to 'read'"""
-    # This regex removes most emojis/symbols so she doesn't say "skull" or "sparkles"
+    # This regex removes most emojis/symbols
     return re.sub(r'[^\x00-\x7F]+', '', text)
 
 def quick_speak(text):
@@ -36,11 +35,8 @@ def quick_speak(text):
         with sd.OutputStream(samplerate=piper_sample_rate, channels=1, dtype='int16') as stream:
             # Generate audio in chunks
             for chunk in voice.synthesize(clean_text):
-                # FIX: We use the 'audio_int16_bytes' attribute we found in your debug list
                 if hasattr(chunk, 'audio_int16_bytes'):
                     audio_bytes = chunk.audio_int16_bytes
-                    
-                    # Convert bytes to numpy array for sounddevice
                     int_data = np.frombuffer(audio_bytes, dtype=np.int16)
                     stream.write(int_data)
                     
@@ -68,6 +64,7 @@ def start_chat():
         {
             'role': 'system', 
             'content': (
+                #persona change this to anything you want to make the ai follow a role
                 "You are the user's close, witty female best friend. He is a boy, and you are his girl best friend. "
                 "Personality: high-energy, playful, full of banter, and slightly sassy. "
                 "Style: short, punchy responses; casual lowercase vibes. Use slang like 'bro', 'dude', or 'bestie'. "
@@ -81,7 +78,7 @@ def start_chat():
     
     is_listening = True
     print(f"--- Chatting with {MODEL} (Voice: Piper Offline) ---")
-    print("Commands: Say 'stop listening' to pause, 'start' to resume, or 'exit' to quit.")
+    print("Commands: Say 'stop listening' to pause, 'start' to resume, or 'exit' or 'bye' to quit.")
 
     while True:
         try:
@@ -128,4 +125,5 @@ def start_chat():
             break
 
 if __name__ == "__main__":
+
     start_chat()
