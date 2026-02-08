@@ -1,0 +1,6 @@
+ollama
+SpeechRecognition
+piper-tts
+sounddevice
+numpy
+PyAudio
