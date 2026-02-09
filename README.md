@@ -18,7 +18,7 @@ Gwen is a fully offline, voice-interfaced AI companion. She uses **Ollama (Llama
 
 1. Clone the repo:
    ```bash
-   git clone [https://github.com/AhmedGharsallah/Gwen-Witty-offline-AI.git](https://github.com/AhmedGharsallah/Gwen-Witty-offline-AI.git)
+   git clone https://github.com/AhmedGharsallah/Gwen-Witty-offline-AI.git
 
 2. Install dependencies:
    ```bash
@@ -35,6 +35,7 @@ Say "stop listening" to pause the mic.
 
 
 Say "exit" or "bye" to quit.
+
 
 
 
